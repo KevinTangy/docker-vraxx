@@ -8,7 +8,8 @@ web1:
 db2:
     container_name: mariadb-wrb
     image: mariadb
-    command: mysql -uroot -pwittang ktangdb < ~/ktangdb.sql
+    volumes:
+        - ~/ktangdb.sql:/docker-entrypoint-initdb.d/ktangdb.sql
     environment:
         - MYSQL_ROOT_PASSWORD=wittang
         - MYSQL_DATABASE=ktangdb
