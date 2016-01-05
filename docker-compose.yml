@@ -1,0 +1,25 @@
+nginx-sdbp:
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - /home/ktang/src/SDBP:/usr/share/nginx/html
+    environment:
+        - VIRTUAL_HOST: *.simpledbpokedex.com,simpledbpokedex.com
+nginx-wrb:
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - /home/ktang/src/WRB:/usr/share/nginx/html
+    links:
+        - mariadb-wrb:mysql
+    environment:
+        - VIRTUAL_HOST: *.witworksreviewboard.com,witworksreviewboard.com
+mariadb-wrb:
+    image: mariadb
+    command: mysql -uroot -pwittang ktangdb < /home/ktang/ktangdb.sql
+    environment:
+        - MYSQL_ROOT_PASSWORD: wittang
+        - MYSQL_DATABASE: ktangdb
+da-proxy:
+    image: jwilder/nginx-proxy
+    ports: "80:80"
+    volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
