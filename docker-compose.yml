@@ -1,0 +1,31 @@
+web1:
+    container_name: nginx-sdbp
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - ~/src/SDBP:/usr/share/nginx/html
+    environment:
+        - VIRTUAL_HOST=*.simpledbpokedex.com,simpledbpokedex.com
+db2:
+    container_name: mariadb-wrb
+    image: mariadb
+    volumes:
+        - ~/ktangdb.sql:/docker-entrypoint-initdb.d/ktangdb.sql
+    environment:
+        - MYSQL_ROOT_PASSWORD=wittang
+        - MYSQL_DATABASE=ktangdb
+web2:
+    container_name: nginx-wrb
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - ~/src/WRB:/usr/share/nginx/html
+    links:
+        - db2:mysql
+    environment:
+        - VIRTUAL_HOST=*.witworksreviewboard.com,witworksreviewboard.com
+proxy:
+    container_name: da-proxy
+    image: jwilder/nginx-proxy
+    ports:
+        - "80:80"
+    volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
