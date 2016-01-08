@@ -13,7 +13,7 @@ cp -pr /root/.ssh /home/ktang/
 
 # Update ssh config
 echo "PermitRootLogin no\n" >> /etc/ssh/sshd_config
-systemctl reload sshd
+systemctl restart sshd
 
 # Install Docker and Docker Compose
 curl -sSL https://get.docker.com/ | sh
@@ -47,8 +47,8 @@ sudo sh -c 'echo "/swapfile none swap sw 0 0" >> /etc/fstab'
 cd
 mkdir src
 cd src
-git clone https://github.com/KevinTangy/SimpleDBPokedex.git
-git clone https://github.com/KevinTangy/WITworks-Review-Board.git
+git clone https://github.com/KevinTangy/SimpleDBPokedex.git SDBP
+git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
 git clone https://github.com/KevinTangy/docker-vraxx.git
 cd
 
