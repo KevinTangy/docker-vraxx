@@ -12,15 +12,17 @@ yum install -y ntp vim tmux screen git
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Create ktang user
-printf "${GREEN}\nAdding ktang user...\n\n${NC}"
-adduser ktang
-gpasswd -a ktang wheel
-cp -pr /root/.ssh /home/ktang/
+MY_USER=ktang
+printf "${GREEN}\nAdding ${MY_USER} user...\n\n${NC}"
+adduser $MY_USER
+gpasswd -a $MY_USER wheel
+cp -pr /root/.ssh /home/${MY_USER}/
+chown -R ${MY_USER}:${MY_USER} /home/${MY_USER}/.ssh
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Update ssh config
 printf "${GREEN}\nUpdating ssh config...\n\n${NC}"
-echo "PermitRootLogin no\n" >> /etc/ssh/sshd_config
+echo -e "\nPermitRootLogin no\nPasswordAuthentication no\nChallengeResponseAuthentication no\nKerberosAuthentication no\n" >> /etc/ssh/sshd_config
 systemctl restart sshd
 printf "${GREEN}\n...Done\n\n${NC}"
 
@@ -70,6 +72,9 @@ git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
 git clone https://github.com/KevinTangy/docker-vraxx.git
 cd
 printf "${GREEN}\n...Done\n\n${NC}"
+
+# Restart Docker service so it plays nice with firewalld
+sudo service docker restart
 
 # Start Docker containers
 printf "${GREEN}\nRunning Docker Compose to bring up containers...\n\n${NC}"
