@@ -1,8 +1,15 @@
 #!/bin/bash
 # Requires CentOS 7 and installed GitHub SSH key
+# Arg 1 is WRB db user and Arg 2 is WRB db password
+
+WRB_DB_USER=$1
+WRB_DB_PASS=$2
 
 GREEN='\e[0;32m'
 NC='\e[0m'
+
+# Update .bashrc
+
 
 # Update base packages and install some essentials
 printf "${GREEN}\nInstalling/updating base packages...\n\n${NC}"
@@ -17,7 +24,8 @@ printf "${GREEN}\nAdding ${MY_USER} user...\n\n${NC}"
 adduser $MY_USER
 gpasswd -a $MY_USER wheel
 cp -pr /root/.ssh /home/${MY_USER}/
-chown -R ${MY_USER}:${MY_USER} /home/${MY_USER}/.ssh
+# cp /root/.bashrc /home/${MY_USER}/
+chown -R ${MY_USER}:${MY_USER} /home/${MY_USER}/
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Update ssh config
@@ -69,6 +77,7 @@ mkdir src
 cd src
 git clone https://github.com/KevinTangy/SimpleDBPokedex.git SDBP
 git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
+#sed /$username = '';/$WRB_DB_USER/ /$password = '';/$WRB_DB_PASS/  WRB/config.php  docker-compose.yml
 git clone https://github.com/KevinTangy/docker-vraxx.git
 cd
 printf "${GREEN}\n...Done\n\n${NC}"

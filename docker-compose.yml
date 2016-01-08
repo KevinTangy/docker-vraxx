@@ -19,7 +19,7 @@ web2:
     volumes:
         - ~/src/WRB:/usr/share/nginx/html
     links:
-        - mariadb-wrb:mysql
+        - db2:mysql
     environment:
         - VIRTUAL_HOST=*.witworksreviewboard.com,witworksreviewboard.com
 proxy:
