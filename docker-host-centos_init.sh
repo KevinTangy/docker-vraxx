@@ -37,8 +37,7 @@ MY_USER=ktang
 printf "${GREEN}\nAdding ${MY_USER} user...\n\n${NC}"
 adduser $MY_USER
 gpasswd -a $MY_USER wheel
-cp -pr /root/.ssh /home/${MY_USER}/
-# cp /root/.bashrc /home/${MY_USER}/
+cp -pr /root/.bashrc /root/.ssh /home/${MY_USER}/
 chown -R ${MY_USER}:${MY_USER} /home/${MY_USER}/
 printf "${GREEN}\n...Done\n\n${NC}"
 
