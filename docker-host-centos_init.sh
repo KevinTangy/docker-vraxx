@@ -2,6 +2,11 @@
 # Requires CentOS 7 and installed GitHub SSH key
 # Arg 1 is WRB db user and Arg 2 is WRB db password
 
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 [WRB db username] [WRB db password]"
+    exit 1
+fi
+
 WRB_DB_USER=$1
 WRB_DB_PASS=$2
 
