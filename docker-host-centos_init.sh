@@ -44,6 +44,7 @@ adduser $MY_USER
 gpasswd -a $MY_USER wheel
 cp -pr /root/.bashrc /root/.ssh /home/${MY_USER}/
 chown -R ${MY_USER}:${MY_USER} /home/${MY_USER}/
+echo -e "${MY_USER}\tALL=(ALL)\tNOPASSWD: ALL" >> /etc/sudoers
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Update ssh config
