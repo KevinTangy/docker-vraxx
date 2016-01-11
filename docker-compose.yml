@@ -11,8 +11,8 @@ db2:
     volumes:
         - ~/ktangdb.sql:/docker-entrypoint-initdb.d/ktangdb.sql
     environment:
-        - MYSQL_ROOT_PASSWORD=wittang
-        - MYSQL_DATABASE=ktangdb
+        - MYSQL_ROOT_PASSWORD=
+        - MYSQL_DATABASE=
 web2:
     container_name: nginx-wrb
     image: richarvey/nginx-php-fpm

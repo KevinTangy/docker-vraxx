@@ -9,7 +9,21 @@ GREEN='\e[0;32m'
 NC='\e[0m'
 
 # Update .bashrc
+echo -e "
 
+# bash prompt
+export PS1=\"[\[$(tput sgr0)\]\[\033[38;5;45m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\[$(tput sgr0)\]\[\033[38;5;10m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;3m\]\W\[$(tput sgr0)\]\[\033[38;5;15m\]]\\$ \[$(tput sgr0)\]\"
+
+# User specific aliases and functions
+alias ll='ls -la'
+alias l='ls -l'
+alias gs='git status'
+alias gb='git branch'
+alias gp='git pull'
+alias gd='git diff'
+alias gg='git status; git pull'
+
+" >> ~/.bashrc
 
 # Update base packages and install some essentials
 printf "${GREEN}\nInstalling/updating base packages...\n\n${NC}"
@@ -77,9 +91,17 @@ mkdir src
 cd src
 git clone https://github.com/KevinTangy/SimpleDBPokedex.git SDBP
 git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
-#sed /$username = '';/$WRB_DB_USER/ /$password = '';/$WRB_DB_PASS/  WRB/config.php  docker-compose.yml
 git clone https://github.com/KevinTangy/docker-vraxx.git
 cd
+printf "${GREEN}\n...Done\n\n${NC}"
+
+# Inject db connection info
+printf "${GREEN}\nInjecting DB conneciton info...\n\n${NC}"
+sed -i -e "s/\$hostname = 'localhost';/\$hostname = 'mariadb-wrb';/"
+       -e "s/\$username = '';/\$username = '$WRB_DB_USER'/"
+       -e "s/\$password = '';/\$password = '$WRB_DB_PASS'/"             ~/src/WRB/config.php
+sed -i -e "s/MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD=$WRB_DB_PASS/"
+       -e "s/MYSQL_DATABASE=/MYSQL_DATABASE=ktangdb/"                   ~/src/docker-vraxx/docker-compose.yml
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Restart Docker service so it plays nice with firewalld
