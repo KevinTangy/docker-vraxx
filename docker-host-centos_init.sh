@@ -101,11 +101,11 @@ printf "${GREEN}\n...Done\n\n${NC}"
 
 # Inject db connection info
 printf "${GREEN}\nInjecting DB conneciton info...\n\n${NC}"
-sed -i -e "s/\$hostname = 'localhost';/\$hostname = 'mariadb-wrb';/"    \
-       -e "s/\$username = '';/\$username = '$WRB_DB_USER'/"             \
-       -e "s/\$password = '';/\$password = '$WRB_DB_PASS'/"             ~/src/WRB/config.php
-sed -i -e "s/MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD=$WRB_DB_PASS/"    \
-       -e "s/MYSQL_DATABASE=/MYSQL_DATABASE=ktangdb/"                   ~/src/docker-vraxx/docker-compose.yml
+sed -i -e "s/\$hostname = 'localhost';/\$hostname = 'mariadb-wrb';/"     \
+       -e "s/\$username = '';/\$username = '$WRB_DB_USER';/"             \
+       -e "s/\$password = '';/\$password = '$WRB_DB_PASS';/"             ~/src/WRB/config.php
+sed -i -e "s/MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD=$WRB_DB_PASS/"     \
+       -e "s/MYSQL_DATABASE=/MYSQL_DATABASE=ktangdb/"                    ~/src/docker-vraxx/docker-compose.yml
 printf "${GREEN}\n...Done\n\n${NC}"
 
 # Restart Docker service so it plays nice with firewalld
