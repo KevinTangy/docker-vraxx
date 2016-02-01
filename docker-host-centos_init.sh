@@ -97,6 +97,7 @@ cd src
 git clone https://github.com/KevinTangy/SimpleDBPokedex.git SDBP
 git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
 git clone https://github.com/KevinTangy/docker-vraxx.git
+git clone https://github.com/letsencrypt/letsencrypt
 cd
 printf "${GREEN}\n...Done\n\n${NC}"
 
@@ -108,6 +109,18 @@ sed -i -e "s/\$hostname = 'localhost';/\$hostname = 'mariadb-wrb';/"     \
 sed -i -e "s/MYSQL_ROOT_PASSWORD=/MYSQL_ROOT_PASSWORD=$WRB_DB_PASS/"     \
        -e "s/MYSQL_DATABASE=/MYSQL_DATABASE=ktangdb/"                    ~/src/docker-vraxx/docker-compose.yml
 printf "${GREEN}\n...Done\n\n${NC}"
+
+# Grab certs
+printf "${GREEN}\nGrabbing certs from LetsEncrypt...\n\n{$NC}"
+sudo /root/src/letsencrypt/letsencrypt-auto certonly -a manual -d www.simpledbpokedex.com -d simpledbpokedex.com --server https://acme-v01.api.letsencrypt.org/directory --debug
+sudo /root/src/letsencrypt/letsencrypt-auto certonly -a manual -d www.witworksreviewboard.com -d witworksreviewboard.com --server https://acme-v01.api.letsencrypt.org/directory --debug
+
+# Create symlinks in root directory to letsencrypt certs
+for i in $( ls /etc/letsencrypt/archive/ ); do
+    echo Linking cert: $i
+    sudo ln -s /etc/letsencrypt/archive/$i/fullchain1.pem /root/ssl/$i.crt
+    sudo ln -s /etc/letsencrypt/archive/$i/privkey1.pem /root/ssl/$i.key
+done
 
 # Restart Docker service so it plays nice with firewalld
 sudo service docker restart
