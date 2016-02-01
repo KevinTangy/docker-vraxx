@@ -1,11 +1,11 @@
-web1:
+web_sdbp:
     container_name: nginx-sdbp
     image: richarvey/nginx-php-fpm
     volumes:
         - ~/src/SDBP:/usr/share/nginx/html
     environment:
         - VIRTUAL_HOST=*.simpledbpokedex.com,simpledbpokedex.com
-db2:
+db_wrb:
     container_name: mariadb-wrb
     image: mariadb
     volumes:
@@ -13,15 +13,22 @@ db2:
     environment:
         - MYSQL_ROOT_PASSWORD=
         - MYSQL_DATABASE=
-web2:
+web_wrb:
     container_name: nginx-wrb
     image: richarvey/nginx-php-fpm
     volumes:
         - ~/src/WRB:/usr/share/nginx/html
     links:
-        - db2:mysql
+        - db_wrb:mysql
     environment:
         - VIRTUAL_HOST=*.witworksreviewboard.com,witworksreviewboard.com
+web_kt:
+    container_name: nginx-kt
+    image: richarvey/nginx-php-fpm
+    volumes:
+        - ~/src/KT:/usr/share/nginx/html
+    environment:
+        - VIRTUAL_HOST=*.kevintangy.com,kevintangy.com
 proxy:
     container_name: da-proxy
     image: jwilder/nginx-proxy

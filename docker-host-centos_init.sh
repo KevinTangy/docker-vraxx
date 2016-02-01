@@ -96,8 +96,9 @@ mkdir src
 cd src
 git clone https://github.com/KevinTangy/SimpleDBPokedex.git SDBP
 git clone https://github.com/KevinTangy/WITworks-Review-Board.git WRB
-git clone https://github.com/KevinTangy/docker-vraxx.git
-git clone https://github.com/letsencrypt/letsencrypt
+git clone https://github.com/KevinTangy/startbootstrap-creative.git KT
+git clone https://github.com/KevinTangy/docker-vraxx.git docker-vraxx
+git clone https://github.com/letsencrypt/letsencrypt letsencrypt
 cd
 printf "${GREEN}\n...Done\n\n${NC}"
 
@@ -114,6 +115,7 @@ printf "${GREEN}\n...Done\n\n${NC}"
 printf "${GREEN}\nGrabbing certs from LetsEncrypt...\n\n{$NC}"
 sudo /root/src/letsencrypt/letsencrypt-auto certonly -a manual -d www.simpledbpokedex.com -d simpledbpokedex.com --server https://acme-v01.api.letsencrypt.org/directory --debug
 sudo /root/src/letsencrypt/letsencrypt-auto certonly -a manual -d www.witworksreviewboard.com -d witworksreviewboard.com --server https://acme-v01.api.letsencrypt.org/directory --debug
+sudo /root/src/letsencrypt/letsencrypt-auto certonly -a manual -d www.kevintangy.com -d kevintangy.com --server https://acme-v01.api.letsencrypt.org/directory --debug
 
 # Create symlinks in root directory to letsencrypt certs
 for i in $( ls /etc/letsencrypt/archive/ ); do
