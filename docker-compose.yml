@@ -5,6 +5,7 @@ web_sdbp:
         - ~/src/SDBP:/usr/share/nginx/html
     environment:
         - VIRTUAL_HOST=*.simpledbpokedex.com,simpledbpokedex.com
+
 db_wrb:
     container_name: mariadb-wrb
     image: mariadb
@@ -13,6 +14,7 @@ db_wrb:
     environment:
         - MYSQL_ROOT_PASSWORD=
         - MYSQL_DATABASE=
+
 web_wrb:
     container_name: nginx-wrb
     image: richarvey/nginx-php-fpm
@@ -22,6 +24,7 @@ web_wrb:
         - db_wrb:mysql
     environment:
         - VIRTUAL_HOST=*.witworksreviewboard.com,witworksreviewboard.com
+
 web_kt:
     container_name: nginx-kt
     image: richarvey/nginx-php-fpm
@@ -29,6 +32,7 @@ web_kt:
         - ~/src/KT:/usr/share/nginx/html
     environment:
         - VIRTUAL_HOST=*.kevintangy.com,kevintangy.com
+
 proxy:
     container_name: da-proxy
     image: jwilder/nginx-proxy
@@ -38,3 +42,19 @@ proxy:
     volumes:
         - /var/run/docker.sock:/tmp/docker.sock:ro
         - /root/ssl:/etc/nginx/certs
+
+botkit_pete:
+    build: .
+    dockerfile: Dockerfile.botkit
+    container_name: botkit-pete
+    ports:
+        - 8080:8080
+    volumes:
+        - ~/src/botkit:/usr/src/app
+    links:
+        - redis_botkit:redis
+    env_file: ~/.env_vars
+
+redis_botkit:
+    container_name: redis-botkit
+    image: redis

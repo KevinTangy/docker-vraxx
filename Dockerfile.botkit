@@ -1,0 +1,16 @@
+FROM    centos:centos6
+
+# Enable Extra Packages for Enterprise Linux (EPEL) for CentOS
+RUN     yum install -y epel-release
+# Install Node.js and npm
+RUN     yum install -y nodejs npm
+
+# Install app dependencies
+COPY    ../botkit/package.json /usr/src/package.json
+RUN     cd /usr/src; npm install
+
+# Bundle app source
+COPY    ../botkit/ /usr/src
+
+EXPOSE  8080
+CMD     ["node", "/usr/src/bot.js"]
