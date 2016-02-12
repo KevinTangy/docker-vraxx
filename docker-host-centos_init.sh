@@ -129,7 +129,7 @@ sudo service docker restart
 
 # Start Docker containers
 printf "${GREEN}\nRunning Docker Compose to bring up containers...\n\n${NC}"
-cd src/docker-vraxx && docker-compose up -d
+cd src/docker-vraxx && /usr/local/bin/docker-compose up -d
 cd
 printf "${GREEN}\n...Done\n\n${NC}"
 
