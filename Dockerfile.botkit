@@ -1,16 +1,18 @@
-FROM    centos:centos6
+FROM    phusion/baseimage
 
-# Enable Extra Packages for Enterprise Linux (EPEL) for CentOS
-RUN     yum install -y epel-release
+# Update OS
+RUN     apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
 # Install Node.js and npm
-RUN     yum install -y nodejs npm
+RUN     curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash - && sudo apt-get install -y nodejs
 
 # Install app dependencies
-COPY    package.json /usr/src/package.json
+ADD     https://raw.githubusercontent.com/KevinTangy/botkit/master/package.json /usr/src/
 RUN     cd /usr/src; npm install
 
 # Bundle app source
-COPY    botkit/ /usr/src
+COPY    botkit/lib /usr/src/lib
+ADD     https://raw.githubusercontent.com/KevinTangy/botkit/master/bot.js /usr/src/
 
 EXPOSE  8080
 CMD     ["node", "/usr/src/bot.js"]
